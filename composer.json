@@ -2,6 +2,7 @@
     "name": "nacosvel/helper",
     "description": "The Nacosvel Components",
     "keywords": [
+        "Nacosvel Helper",
         "Nacosvel Utils"
     ],
     "type": "library",
