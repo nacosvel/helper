@@ -8,7 +8,7 @@
 
 ## Installation
 
-Recommended to use the PHP package management tool [Composer](https://getcomposer.org/) to install the SDK:
+You can install the package via [Composer](https://getcomposer.org/):
 
 ```bash
 composer require nacosvel/helper
@@ -16,4 +16,4 @@ composer require nacosvel/helper
 
 ## License
 
-Guzzle is made available under the MIT License (MIT). Please see [License File](LICENSE) for more information.
+Nacosvel Helper is made available under the MIT License (MIT). Please see [License File](LICENSE) for more information.
