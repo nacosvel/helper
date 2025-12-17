@@ -5,37 +5,64 @@ namespace Nacosvel\Helper\Concerns;
 trait StringTrait
 {
     /**
+     * Convert a camelCase or PascalCase string to kebab-case.
+     *
      * 将 小驼峰命名法（camelCase）或大驼峰命名（PascalCase）的字符串转换为 kebab-case。
      * (?<!^): 这个负向前瞻断言确保匹配的字母不是字符串的第一个字符。
      * [A-Z](?=[a-z]): 这是一个断言，它只会匹配后面跟随小写字母的大写字母，防止处理像 HTTPResponse 这样连续大写字母的情况。
      * (?<=[a-z])[A-Z]: 断言前面是小写字母的大写字母，适用于处理正常的 camelCase。
      *
-     * @param string        $input
-     * @param callable|null $callback
+     * This function transforms a string formatted in camelCase (e.g., "myExampleString")
+     * or PascalCase (e.g., "MyExampleString") into kebab-case (e.g., "my-example-string").
+     * Optionally, a callback can be applied to the input string before conversion.
      *
-     * @return string
+     * @param string        $input    The camelCase or PascalCase input string.
+     * @param callable|null $callback Optional callback applied to the input string before conversion.
+     *                                Signature: fn(string $input): string
+     *
+     * @return string The converted string in kebab-case format.
+     *
+     * @example
+     * ```
+     * $result = camelToKebab('myExampleString');
+     * // $result = 'my-example-string'
+     *
+     * $result = camelToKebab('MyExampleString', fn($s) => strtoupper($s));
+     * // $result = 'MY-EXAMPLE-STRING'
+     * ```
      */
     public static function camelToKebab(string $input, callable $callback = null): string
     {
-        if (is_callable($callback)) {
-            $input = call_user_func($callback, $input);
-        }
-
         // Convert camelCase or PascalCase to kebab-case, handling consecutive uppercase letters
         $output = preg_replace('/(?<!^)([A-Z](?=[a-z])|(?<=[a-z])[A-Z])/', '-$1', $input);
 
         // Convert to lowercase and return
-        return strtolower($output);
+        $output = strtolower($output);
+
+        return is_callable($callback) ? call_user_func($callback, $output) : $output;
     }
 
     /**
-     * 将 kebab-case 的字符串转换为小驼峰命名法（camelCase）。
-     * 该函数需要识别连字符 - 并将它后面的字母转换为大写。
+     * Convert a kebab-case string to camelCase.
      *
-     * @param string        $input
-     * @param callable|null $callback
+     * This function transforms a string formatted in kebab-case (e.g., "my-example-string")
+     * into camelCase (e.g., "myExampleString"). Optionally, a callback can be provided
+     * to further process or modify the resulting camelCase string.
      *
-     * @return string
+     * @param string        $input    The kebab-case input string.
+     * @param callable|null $callback Optional callback applied to the resulting camelCase string.
+     *                                Signature: fn(string $camel): string
+     *
+     * @return string The converted string in camelCase format, optionally processed by the callback.
+     *
+     * @example
+     * ```
+     * $result = kebabToCamel('my-example-string');
+     * // $result = 'myExampleString'
+     *
+     * $result = kebabToCamel('my-example-string', fn($s) => strtoupper($s));
+     * // $result = 'MYEXAMPLESTRING'
+     * ```
      */
     public static function kebabToCamel(string $input, callable $callback = null): string
     {
@@ -49,12 +76,26 @@ trait StringTrait
     }
 
     /**
-     * 将 kebab-case 的字符串转换为大驼峰命名法（PascalCase）。
+     * Convert a kebab-case string to PascalCase.
      *
-     * @param string        $input
-     * @param callable|null $callback
+     * This function transforms a string formatted in kebab-case (e.g., "my-example-string")
+     * into PascalCase (e.g., "MyExampleString"). Optionally, a callback can be provided
+     * to further process or modify the resulting PascalCase string.
      *
-     * @return string
+     * @param string        $input    The kebab-case input string.
+     * @param callable|null $callback Optional callback applied to the resulting PascalCase string.
+     *                                Signature: fn(string $pascal): string
+     *
+     * @return string The converted string in PascalCase format, optionally processed by the callback.
+     *
+     * @example
+     * ```
+     * $result = kebabToPascal('my-example-string');
+     * // $result = 'MyExampleString'
+     *
+     * $result = kebabToPascal('my-example-string', fn($s) => strtolower($s));
+     * // $result = 'myexamplestring'
+     * ```
      */
     public static function kebabToPascal(string $input, callable $callback = null): string
     {
