@@ -3,12 +3,11 @@
 namespace Nacosvel\Helper;
 
 use Nacosvel\Helper\Concerns\ArrayTrait;
-use Nacosvel\Helper\Concerns\IlluminateTrait;
-use Nacosvel\Helper\Concerns\URLTrait;
+use Nacosvel\Helper\Concerns\StringTrait;
 
 final class Utils
 {
-    use ArrayTrait, IlluminateTrait, URLTrait;
+    use ArrayTrait, StringTrait;
 
     /**
      * Get hashCode for give string
@@ -21,5 +20,4 @@ final class Utils
     {
         return hexdec(hash('crc32', $data));
     }
-
 }
